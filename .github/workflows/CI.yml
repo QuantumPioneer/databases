@@ -99,7 +99,7 @@ jobs:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
     needs: [check-for-new-release, ci-report-status]
-    if: ${{ needs.check-for-new-release.outputs.do_publish == 'true' && github.ref == 'refs/heads/main' && github.repository == 'JacksonBurns/blank-python-project'}}
+    if: ${{ needs.check-for-new-release.outputs.do_publish == 'true' && github.ref == 'refs/heads/main' && github.repository == 'QuantumPioneer/tristate20'}}
     steps:
     - uses: actions/checkout@master
     - name: Set up Python 3.10

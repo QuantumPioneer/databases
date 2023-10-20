@@ -3,19 +3,19 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "blpyproj"
-version = "0.0.0"
+name = "tristate20"
+version = "0.0.0a0"
 authors = [
     { name = "Jackson Burns" },
 ]
 license = { text = "MIT" }
-description = "Catchy slogan."
+description = "TRISTATE20 Dataset"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
-urls = { Homepage = "https://github.com/JacksonBurns/blank-python-project" }
+urls = { Homepage = "https://github.com/QuantumPioneer/tristate20" }
 requires-python = ">=3.8"
-dependencies = []
+dependencies = ["dill","peewee"]
 
 [project.optional-dependencies]
 dev = ["black", "isort", "pytest"]
@@ -33,5 +33,5 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["blankpythonproject*"]
+include = ["tristate20*"]
 exclude = ["docs*", "examples*", "test*"]

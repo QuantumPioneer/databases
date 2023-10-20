@@ -1,3 +1,0 @@
-
-def placeholder():
-    return

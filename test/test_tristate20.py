@@ -2,12 +2,12 @@ import os
 import sys
 import unittest
 
-# from blankpythonproject import blankpythonproject
+# from tristate20 import tristate20
 
 
-class Test_blankpythonproject(unittest.TestCase):
+class Test_tristate20(unittest.TestCase):
     """
-    Test the various functionalities of blankpythonproject.
+    Test the various functionalities of tristate20.
     """
 
     @classmethod

@@ -1,10 +1,10 @@
-blank-python-project
+tristate20
 ====================
 
 .. toctree::
    :maxdepth: 4
 
-   blankpythonproject
+   tristate20
    setup
    start_project
    test
