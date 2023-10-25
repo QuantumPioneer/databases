@@ -51,7 +51,7 @@ class Results(BaseModel):
             (
                 self.source,
                 self.route_section,
-                self.multiplicity,
+                self.charge,
                 self.multiplicity,
                 self.max_steps,
                 self.normal_termination,
