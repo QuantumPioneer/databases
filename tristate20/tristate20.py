@@ -81,12 +81,26 @@ class TriState20:
         db.init(db_path)
         self.id = 1
 
-    def get_n_converged(self, n):
+    def get_n_converged_random(self, n):
         db.connect()
         query = Results.select().where(Results.id < self.id + n, Results.id >= self.id)
         out = [tuple(iter(res)) for res in query]
         db.close()
         self.id += n
+        return out
+    
+    def get_converged_partitioned(self, offset, limit):
+        db.connect()
+        query = Results.select().order_by(Results.id).offset(offset).limit(limit)
+        out = [tuple(iter(res)) for res in query]
+        db.close()
+        return out
+    
+    def get_converged_by_id(self, entry_id):
+        db.connect()
+        query = Results.select().where(Results.id == entry_id)
+        out = [tuple(iter(res)) for res in query]
+        db.close()
         return out
 
 
