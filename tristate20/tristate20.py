@@ -46,31 +46,60 @@ class Results(BaseModel):
         except:
             return None
 
-    def __iter__(self):
-        return iter(
-            (
-                self.source,
-                self.route_section,
-                self.multiplicity,
-                self.multiplicity,
-                self.max_steps,
-                self.normal_termination,
-                self.cpu_time,
-                self.wall_time,
-                self.e0_h,
-                self.hf,
-                self.zpe_per_atom,
-                self.e0_zpe,
-                self.gibbs,
-                Results.unpickle(self.scf),
-                Results.unpickle(self.recovered_energy),
-                Results.unpickle(self.frequency_modes),
-                Results.unpickle(self.frequencies),
-                Results.unpickle(self.std_forces),
-                Results.unpickle(self.std_xyz),
-                Results.unpickle(self.xyz),
+    def __iter__(self, truncated=False):
+
+        if truncated:
+            return iter(
+                (
+                    self.id,
+                    self.source,
+                    self.route_section,
+                    self.charge,
+                    self.multiplicity,
+                    self.max_steps,
+                    self.normal_termination,
+                    self.cpu_time,
+                    self.wall_time,
+                    self.e0_h,
+                    self.hf,
+                    self.zpe_per_atom,
+                    self.e0_zpe,
+                    self.gibbs,
+                    None if not Results.unpickle(self.scf) else Results.unpickle(self.scf)[-1],
+                    Results.unpickle(self.recovered_energy),
+                    None if not Results.unpickle(self.frequency_modes) else Results.unpickle(self.frequency_modes)[:3],
+                    Results.unpickle(self.frequencies),
+                    Results.unpickle(self.std_forces),
+                    Results.unpickle(self.std_xyz),
+                    Results.unpickle(self.xyz),
+                )
             )
-        )
+
+        else:
+            return iter(
+                (
+                    self.source,
+                    self.route_section,
+                    self.charge,
+                    self.multiplicity,
+                    self.max_steps,
+                    self.normal_termination,
+                    self.cpu_time,
+                    self.wall_time,
+                    self.e0_h,
+                    self.hf,
+                    self.zpe_per_atom,
+                    self.e0_zpe,
+                    self.gibbs,
+                    Results.unpickle(self.scf),
+                    Results.unpickle(self.recovered_energy),
+                    Results.unpickle(self.frequency_modes),
+                    Results.unpickle(self.frequencies),
+                    Results.unpickle(self.std_forces),
+                    Results.unpickle(self.std_xyz),
+                    Results.unpickle(self.xyz),
+                )
+            )
 
 
 # todo: write a connect/close decorator to wrap database reads
@@ -81,12 +110,26 @@ class TriState20:
         db.init(db_path)
         self.id = 1
 
-    def get_n_converged(self, n):
+    def get_n_converged_random(self, n, truncated=False):
         db.connect()
         query = Results.select().where(Results.id < self.id + n, Results.id >= self.id)
-        out = [tuple(iter(res)) for res in query]
+        out = [tuple(iter(res, truncated=truncated)) for res in query]
         db.close()
         self.id += n
+        return out
+    
+    def get_converged_partitioned(self, offset, limit, truncated=False):
+        db.connect()
+        query = Results.select().order_by(Results.id).offset(offset).limit(limit)
+        out = [tuple(iter(res, truncated=truncated)) for res in query]
+        db.close()
+        return out
+    
+    def get_converged_by_id(self, entry_id, truncated=False):
+        db.connect()
+        query = Results.select().where(Results.id == entry_id)
+        out = [tuple(iter(res, truncated=truncated)) for res in query]
+        db.close()
         return out
 
 
