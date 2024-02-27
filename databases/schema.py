@@ -1,12 +1,22 @@
 # Defines the schema for the QuantumPioneer databases
-from peewee import SqliteDatabase, Model, BlobField, TextField, FloatField, IntegerField, BooleanField
+from peewee import (
+    SqliteDatabase,
+    Model,
+    BlobField,
+    TextField,
+    FloatField,
+    IntegerField,
+    BooleanField,
+)
 
 # defer to class instantiation
 PLACEHOLDER_DB = SqliteDatabase(None)
 
+
 class BaseModel(Model):
     class Meta:
         database = PLACEHOLDER_DB
+
 
 class GenericResults(BaseModel):
     source = TextField(unique=True)
@@ -14,13 +24,16 @@ class GenericResults(BaseModel):
     charge = IntegerField(null=True)
     multiplicity = IntegerField(null=True)
 
+
 class DLPNOResults(GenericResults):
     energy = FloatField(null=True)
     run_time = FloatField(null=True)
     input_coordinates = BlobField(null=True)
 
+
 class COSMOResults(DLPNOResults):
     ...
+
 
 class DFTResults(GenericResults):
     max_steps = IntegerField(null=True)
@@ -41,6 +54,7 @@ class DFTResults(GenericResults):
     std_forces = BlobField(null=True)
     std_xyz = BlobField(null=True)
     xyz = BlobField(null=True)
+
 
 class SemiEmpiricalResults(DFTResults):
     ...

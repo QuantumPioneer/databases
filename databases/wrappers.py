@@ -1,10 +1,7 @@
-
-
 # add method to insert new columns
 # add new keys, like atom-mapped smiles etc.
-# 
+#
 # remove the fpath column in production release
-
 
 
 class AbstractWrapper:
@@ -59,8 +56,10 @@ class AbstractWrapper:
     def _get_at(self, datatype: DATATYPES = "list", with_replacement: bool = False):
         """Driver helper that retrieves a single row at a given GUID"""
 
+
 class ORCAWrapper(AbstractWrapper):
     ...
+
 
 class DFTWrapper(AbstractWrapper):
     def __init__(self, db_path):
@@ -74,14 +73,14 @@ class DFTWrapper(AbstractWrapper):
         db.close()
         self.id += n
         return out
-    
+
     def get_converged_partitioned(self, offset, limit, truncated=False):
         db.connect()
         query = Results.select().order_by(Results.id).offset(offset).limit(limit)
         out = [tuple(iter(res, truncated=truncated)) for res in query]
         db.close()
         return out
-    
+
     def get_converged_by_id(self, entry_id, truncated=False):
         db.connect()
         query = Results.select().where(Results.id == entry_id)

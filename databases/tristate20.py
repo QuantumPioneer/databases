@@ -1,7 +1,15 @@
 import pickle
 
 # dill, peewee, and tqdm are all single-library dependencies
-from peewee import SqliteDatabase, Model, BlobField, TextField, IntegerField, BooleanField, FloatField
+from peewee import (
+    SqliteDatabase,
+    Model,
+    BlobField,
+    TextField,
+    IntegerField,
+    BooleanField,
+    FloatField,
+)
 
 
 db = SqliteDatabase(None)  # defer to class instantiation
@@ -47,7 +55,6 @@ class Results(BaseModel):
             return None
 
     def __iter__(self, truncated=False):
-
         if truncated:
             return iter(
                 (
@@ -65,9 +72,13 @@ class Results(BaseModel):
                     self.zpe_per_atom,
                     self.e0_zpe,
                     self.gibbs,
-                    None if not Results.unpickle(self.scf) else Results.unpickle(self.scf)[-1],
+                    None
+                    if not Results.unpickle(self.scf)
+                    else Results.unpickle(self.scf)[-1],
                     Results.unpickle(self.recovered_energy),
-                    None if not Results.unpickle(self.frequency_modes) else Results.unpickle(self.frequency_modes)[:3],
+                    None
+                    if not Results.unpickle(self.frequency_modes)
+                    else Results.unpickle(self.frequency_modes)[:3],
                     Results.unpickle(self.frequencies),
                     Results.unpickle(self.std_forces),
                     Results.unpickle(self.std_xyz),
@@ -117,14 +128,14 @@ class TriState20:
         db.close()
         self.id += n
         return out
-    
+
     def get_converged_partitioned(self, offset, limit, truncated=False):
         db.connect()
         query = Results.select().order_by(Results.id).offset(offset).limit(limit)
         out = [tuple(iter(res, truncated=truncated)) for res in query]
         db.close()
         return out
-    
+
     def get_converged_by_id(self, entry_id, truncated=False):
         db.connect()
         query = Results.select().where(Results.id == entry_id)
