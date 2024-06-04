@@ -37,8 +37,6 @@ DLPNO_SCHEMA: pa.Schema = pa.unify_schemas(
     ]
 )
 
-COSMO_SCHEMA: pa.Schema = deepcopy(DLPNO_SCHEMA)
-
 DFT_SCHEMA: pa.Schema = pa.unify_schemas(
     [
         _base_results,
@@ -81,13 +79,11 @@ DFT_SCHEMA: pa.Schema = pa.unify_schemas(
     ]
 )
 
-SEMIEMPERICAL_SCHEMA: pa.Schema = deepcopy(DFT_SCHEMA)
-
 SCHEMA_LOOKUP: MappingProxyType = MappingProxyType(
     {
         "dlpno": DLPNO_SCHEMA,
-        "cosmo": COSMO_SCHEMA,
+        "cosmo": DLPNO_SCHEMA,
         "dft": DFT_SCHEMA,
-        "semiemperical": SEMIEMPERICAL_SCHEMA,
+        "semiemperical": DFT_SCHEMA,
     }
 )

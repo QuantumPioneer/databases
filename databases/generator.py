@@ -20,45 +20,53 @@ DB_TYPE = sys.argv[3]
 
 
 def _dlpno(fpath):
-    (result,) = folp(fpath)
-    return [
-        {
-            "energy": result.energy,
-            "run_time": result.run_time,
-            "input_coordinates": result.input_coordinates,
-            "source": fpath,
-            "route_section": result.route_section,
-            "charge": result.charge_and_multiplicity[0],
-            "multiplicity": result.charge_and_multiplicity[1],
-        }
-    ]
+    try:
+        (result,) = folp(fpath)
+        return [
+            {
+                "energy": result.energy,
+                "run_time": result.run_time,
+                "input_coordinates": result.input_coordinates,
+                "source": fpath,
+                "route_section": result.route_section,
+                "charge": result.charge_and_multiplicity[0],
+                "multiplicity": result.charge_and_multiplicity[1],
+            }
+        ]
+    except Exception as e:
+        print(f"Unable to parse {fpath}, exception: {str(e)}")
+        return []
 
 
 def _dft(fpath):
-    return [
-        {
-            "source": fpath,
-            "route_section": result.route_section,
-            "charge": result.charge_and_multiplicity[0],
-            "multiplicity": result.charge_and_multiplicity[1],
-            "max_steps": result.max_steps,
-            "normal_termination": result.normal_termination,
-            "cpu_time": result.cpu_time,
-            "wall_time": result.wall_time,
-            "e0_h": result.e0_h,
-            "hf": result.hf,
-            "zpe_per_atom": result.zpe_per_atom,
-            "e0_zpe": result.e0_zpe,
-            "gibbs": result.gibbs,
-            "scf": result.scf,
-            "frequencies": result.frequencies,
-            "frequency_modes": result.frequency_modes,
-            "xyz": result.xyz,
-            "std_xyz": result.std_xyz,
-            "std_forces": result.std_forces,
-        }
-        for result in fglp(fpath)
-    ]
+    try:
+        return [
+            {
+                "source": fpath,
+                "route_section": result.route_section,
+                "charge": result.charge_and_multiplicity[0],
+                "multiplicity": result.charge_and_multiplicity[1],
+                "max_steps": result.max_steps,
+                "normal_termination": result.normal_termination,
+                "cpu_time": result.cpu_time,
+                "wall_time": result.wall_time,
+                "e0_h": result.e0_h,
+                "hf": result.hf,
+                "zpe_per_atom": result.zpe_per_atom,
+                "e0_zpe": result.e0_zpe,
+                "gibbs": result.gibbs,
+                "scf": result.scf,
+                "frequencies": result.frequencies,
+                "frequency_modes": result.frequency_modes,
+                "xyz": result.xyz,
+                "std_xyz": result.std_xyz,
+                "std_forces": result.std_forces,
+            }
+            for result in fglp(fpath)
+        ]
+    except Exception as e:
+        print(f"Unable to parse {fpath}, exception: {str(e)}")
+        return []
 
 
 _func_lookup: MappingProxyType = MappingProxyType(
