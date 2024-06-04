@@ -19,7 +19,7 @@ class BaseModel(Model):
 
 
 class GenericResults(BaseModel):
-    source = TextField(unique=True)
+    source = TextField(unique=False)
     route_section = TextField(null=True)
     charge = IntegerField(null=True)
     multiplicity = IntegerField(null=True)
