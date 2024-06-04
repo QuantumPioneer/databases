@@ -1,60 +1,93 @@
 # Defines the schema for the QuantumPioneer databases
-from peewee import (
-    SqliteDatabase,
-    Model,
-    BlobField,
-    TextField,
-    FloatField,
-    IntegerField,
-    BooleanField,
+from copy import deepcopy
+from types import MappingProxyType
+
+import pyarrow as pa
+
+_base_results = pa.schema(
+    [
+        ("source", pa.utf8()),
+        ("route_section", pa.utf8()),
+        ("charge", pa.uint8()),
+        ("multiplicity", pa.uint8()),
+    ],
+    metadata={
+        "source": "Original file",
+        "route_section": "Level of theory",
+        "charge": "Molecular formal charge",
+        "multiplicity": "Electron multiplicity",
+    },
 )
 
-# defer to class instantiation
-PLACEHOLDER_DB = SqliteDatabase(None)
+DLPNO_SCHEMA: pa.Schema = pa.unify_schemas(
+    [
+        _base_results,
+        pa.schema(
+            [
+                ("energy", pa.float64()),
+                ("run_time", pa.uint32()),
+                ("input_coordinates", pa.list_(pa.list_(pa.float64()))),
+            ],
+            metadata={
+                "energy": "Total energy",
+                "run_time": "Execution time in seconds",
+                "input_coordinates": "XYZ coordinates at input",
+            },
+        ),
+    ]
+)
 
+COSMO_SCHEMA: pa.Schema = deepcopy(DLPNO_SCHEMA)
 
-class BaseModel(Model):
-    class Meta:
-        database = PLACEHOLDER_DB
+DFT_SCHEMA: pa.Schema = pa.unify_schemas(
+    [
+        _base_results,
+        pa.schema(
+            [
+                ("max_steps", pa.uint32()),
+                ("normal_termination", pa.bool_()),
+                ("cpu_time", pa.uint32()),
+                ("wall_time", pa.uint32()),
+                ("e0_h", pa.float64()),
+                ("hf", pa.float64()),
+                ("zpe_per_atom", pa.float64()),
+                ("e0_zpe", pa.float64()),
+                ("gibbs", pa.float64()),
+                ("scf", pa.list_(pa.float64())),
+                ("frequencies", pa.list_(pa.float64())),
+                ("frequency_modes", pa.list_(pa.list_(pa.list_(pa.float64())))),
+                ("xyz", pa.list_(pa.list_(pa.list_(pa.float64())))),
+                ("std_xyz", pa.list_(pa.list_(pa.list_(pa.float64())))),
+                ("std_forces", pa.list_(pa.list_(pa.list_(pa.float64())))),
+            ],
+            metadata={
+                "max_steps": "Maximum allowed steps",
+                "normal_termination": "Terminated normally",
+                "cpu_time": "CPU time in seconds",
+                "wall_time": "Wall time in seconds",
+                "e0_h": "Enthalpy at 298K",
+                "hf": "E0 for non-wavefunction methods",
+                "zpe_per_atom": "Per-atom zero point energy",
+                "e0_zpe": "Gibbs free energy at 0K",
+                "gibbs": "Gibbs free energy at 298K",
+                "scf": "SCF energy",
+                "frequencies": "Vibrational frequencies",
+                "frequency_modes": "Vibrational modes",
+                "xyz": "Input XYZ coords",
+                "std_xyz": "Standardized XYZ coords",
+                "std_forces": "Standardized forces",
+            },
+        ),
+    ]
+)
 
+SEMIEMPERICAL_SCHEMA: pa.Schema = deepcopy(DFT_SCHEMA)
 
-class GenericResults(BaseModel):
-    source = TextField(unique=False)
-    route_section = TextField(null=True)
-    charge = IntegerField(null=True)
-    multiplicity = IntegerField(null=True)
-
-
-class DLPNOResults(GenericResults):
-    energy = FloatField(null=True)
-    run_time = FloatField(null=True)
-    input_coordinates = BlobField(null=True)
-
-
-class COSMOResults(DLPNOResults):
-    ...
-
-
-class DFTResults(GenericResults):
-    max_steps = IntegerField(null=True)
-    normal_termination = BooleanField(null=True)
-    cpu_time = FloatField(null=True)
-    wall_time = FloatField(null=True)
-    e0_h = FloatField(null=True)
-    hf = FloatField(null=True)
-    zpe_per_atom = FloatField(null=True)
-    e0_zpe = FloatField(null=True)
-    gibbs = FloatField(null=True)
-
-    # array fields saved as Pickles
-    scf = BlobField(null=True)
-    recovered_energy = BlobField(null=True)
-    frequency_modes = BlobField(null=True)
-    frequencies = BlobField(null=True)
-    std_forces = BlobField(null=True)
-    std_xyz = BlobField(null=True)
-    xyz = BlobField(null=True)
-
-
-class SemiEmpiricalResults(DFTResults):
-    ...
+SCHEMA_LOOKUP: MappingProxyType = MappingProxyType(
+    {
+        "dlpno": DLPNO_SCHEMA,
+        "cosmo": COSMO_SCHEMA,
+        "dft": DFT_SCHEMA,
+        "semiemperical": SEMIEMPERICAL_SCHEMA,
+    }
+)

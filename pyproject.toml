@@ -15,7 +15,7 @@ classifiers = [
 ]
 urls = { Homepage = "https://github.com/QuantumPioneer/tristate20" }
 requires-python = ">=3.8"
-dependencies = ["dill","peewee"]
+dependencies = ["pyarrow"]
 
 [project.optional-dependencies]
 dev = ["black", "isort", "pytest"]
