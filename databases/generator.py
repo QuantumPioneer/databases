@@ -56,6 +56,7 @@ def _dft(fpath):
                 "zpe_per_atom": result.zpe_per_atom,
                 "e0_zpe": result.e0_zpe,
                 "gibbs": result.gibbs,
+                "dipole_au": result.dipole_au,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
                 "frequency_modes": result.frequency_modes,
