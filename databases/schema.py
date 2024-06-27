@@ -1,5 +1,4 @@
 # Defines the schema for the QuantumPioneer databases
-from copy import deepcopy
 from types import MappingProxyType
 
 import pyarrow as pa
@@ -27,11 +26,13 @@ DLPNO_SCHEMA: pa.Schema = pa.unify_schemas(
                 ("energy", pa.float64()),
                 ("run_time", pa.uint32()),
                 ("input_coordinates", pa.list_(pa.list_(pa.float64()))),
+                ("dipole_au"), pa.float32(),
             ],
             metadata={
                 "energy": "Total energy",
                 "run_time": "Execution time in seconds",
                 "input_coordinates": "XYZ coordinates at input",
+                "dipole_au": "Molecular dipole in atomic units (AU)"
             },
         ),
     ]

@@ -31,6 +31,7 @@ def _dlpno(fpath):
                 "route_section": result.route_section,
                 "charge": result.charge_and_multiplicity[0],
                 "multiplicity": result.charge_and_multiplicity[1],
+                "dipole_au": result.dipole_au,
             }
         ]
     except Exception as e:
