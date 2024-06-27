@@ -58,6 +58,7 @@ def _dft(fpath):
                 "gibbs": result.gibbs,
                 "dipole_au": result.dipole_au,
                 "aniso_polarizability_au": result.aniso_polarizability_au,
+                "dipole_moment_debye": result.dipole_moment_debye,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
                 "frequency_modes": result.frequency_modes,
