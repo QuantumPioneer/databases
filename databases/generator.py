@@ -58,11 +58,11 @@ def _dft(fpath):
                 "scf": result.scf,
                 "frequencies": result.frequencies,
                 "frequency_modes": result.frequency_modes,
-                "xyz": result.xyz,
-                "std_xyz": result.std_xyz,
-                "std_forces": result.std_forces,
+                "xyz": result.xyz[-1],  # keep only the converged XYZ
+                "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
+                "std_forces": result.std_forces[-5:],
             }
-            for result in fglp(fpath)
+            for result in fglp(fpath) if result.normal_termination  # skip failed runs
         ]
     except Exception as e:
         print(f"Unable to parse {fpath}, exception: {str(e)}")

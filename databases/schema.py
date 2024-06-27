@@ -54,7 +54,7 @@ DFT_SCHEMA: pa.Schema = pa.unify_schemas(
                 ("scf", pa.list_(pa.float64())),
                 ("frequencies", pa.list_(pa.float64())),
                 ("frequency_modes", pa.list_(pa.list_(pa.list_(pa.float64())))),
-                ("xyz", pa.list_(pa.list_(pa.list_(pa.float32())))),
+                ("xyz", pa.list_(pa.list_(pa.float32()))),
                 ("std_xyz", pa.list_(pa.list_(pa.list_(pa.float32())))),
                 ("std_forces", pa.list_(pa.list_(pa.list_(pa.float32())))),
             ],
