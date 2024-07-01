@@ -31,6 +31,7 @@ def _dlpno(fpath):
                 "route_section": result.route_section,
                 "charge": result.charge_and_multiplicity[0],
                 "multiplicity": result.charge_and_multiplicity[1],
+                "dipole_au": result.dipole_au,
             }
         ]
     except Exception as e:
@@ -55,14 +56,21 @@ def _dft(fpath):
                 "zpe_per_atom": result.zpe_per_atom,
                 "e0_zpe": result.e0_zpe,
                 "gibbs": result.gibbs,
+                "dipole_au": result.dipole_au,
+                "aniso_polarizability_au": result.aniso_polarizability_au,
+                "iso_polarizability_au": result.iso_polarizability_au,
+                "dipole_moment_debye": result.dipole_moment_debye,
+                "mulliken_charges_summed": result.mulliken_charges_summed[-1],  # converged geometry charges
+                "homo_lumo_gap": result.homo_lumo_gap,
+                "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
                 "frequency_modes": result.frequency_modes,
-                "xyz": result.xyz,
-                "std_xyz": result.std_xyz,
-                "std_forces": result.std_forces,
+                "xyz": result.xyz[-1],  # keep only the converged XYZ
+                "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
+                "std_forces": result.std_forces[-5:],
             }
-            for result in fglp(fpath)
+            for result in fglp(fpath) if result.normal_termination  # skip failed runs
         ]
     except Exception as e:
         print(f"Unable to parse {fpath}, exception: {str(e)}")
