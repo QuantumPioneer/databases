@@ -58,6 +58,7 @@ def _dft(fpath):
                 "gibbs": result.gibbs,
                 "dipole_au": result.dipole_au,
                 "aniso_polarizability_au": result.aniso_polarizability_au,
+                "iso_polarizability_au": result.iso_polarizability_au,
                 "dipole_moment_debye": result.dipole_moment_debye,
                 "mulliken_charges_summed": result.mulliken_charges_summed[-1],  # converged geometry charges
                 "homo_lumo_gap": result.homo_lumo_gap,
