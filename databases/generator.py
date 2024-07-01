@@ -62,6 +62,7 @@ def _dft(fpath):
                 "dipole_moment_debye": result.dipole_moment_debye,
                 "mulliken_charges_summed": result.mulliken_charges_summed[-1],  # converged geometry charges
                 "homo_lumo_gap": result.homo_lumo_gap,
+                "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
                 "frequency_modes": result.frequency_modes,
