@@ -41,6 +41,7 @@ def _dlpno(fpath):
 
 def _dft(fpath):
     try:
+        results = fglp(fpath)
         return [
             {
                 "source": fpath,
@@ -60,7 +61,8 @@ def _dft(fpath):
                 "aniso_polarizability_au": result.aniso_polarizability_au,
                 "iso_polarizability_au": result.iso_polarizability_au,
                 "dipole_moment_debye": result.dipole_moment_debye,
-                "mulliken_charges_summed": result.mulliken_charges_summed[-1],  # converged geometry charges
+                # if printed twice, take the second one
+                "mulliken_charges_summed": result.mulliken_charges_summed[-1] if isinstance(result.mulliken_charges_summed[0][0], list) else result.mulliken_charges_summed,  # converged geometry charges
                 "homo_lumo_gap": result.homo_lumo_gap,
                 "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
@@ -70,7 +72,7 @@ def _dft(fpath):
                 "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
                 "std_forces": result.std_forces[-5:],
             }
-            for result in fglp(fpath) if result.normal_termination  # skip failed runs
+            for result in results if results[-1].normal_termination  # skip entire composite job if DFT failed
         ]
     except Exception as e:
         print(f"Unable to parse {fpath}, exception: {str(e)}")
