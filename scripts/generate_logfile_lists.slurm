@@ -74,3 +74,5 @@ bash log_finder.sh \
 # /data1/groups/co2_capture/cosmo_backup/cosmo_rp_aug11b_backup
 # /data1/groups/co2_capture/cosmo_backup/cosmo_rp_sep1a_backup
 # /data1/groups/co2_capture/reactant_product_calculation/ts_nho_round1/output/COSMO_calc
+
+# want the energy and the dipole from the .energy file, area and volume from the .cosmo file, Gsolv for the species (not the solvent) for each temperature
