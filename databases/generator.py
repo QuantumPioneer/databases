@@ -88,6 +88,7 @@ def _dft(fpath):
                 "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
+                "nmr_shielding": result.nmr_shielding,
                 "frequency_modes": result.frequency_modes,
                 "xyz": result.xyz[-1],  # keep only the converged XYZ
                 "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
