@@ -32,6 +32,7 @@ def _dlpno(fpath):
                 "charge": result.charge_and_multiplicity[0],
                 "multiplicity": result.charge_and_multiplicity[1],
                 "dipole_au": result.dipole_au,
+                "t1_diagnostic": result.t1_diagnostic,
             }
         ]
     except Exception as e:
