@@ -93,13 +93,13 @@ def _dft(fpath):
                 "frequency_modes": result.frequency_modes,
                 "xyz": result.xyz[-1],  # keep only the converged XYZ
                 "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
-                "std_forces": result.std_forces[-5:],
+                "std_forces": None if result.std_forces is None else result.std_forces[-5:],
             }
             for result in results
             if results[-1].normal_termination  # skip entire composite job if DFT failed
         ]
     except Exception as e:
-        print(f"Unable to munge {fpath}, exception: {str(e)}. Skipping!")
+        print(f"Unable to munge {fpath}, exception: {str(e.with_traceback())}. Skipping!")
         return []
 
 
