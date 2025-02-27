@@ -85,6 +85,16 @@ def _dft(fpath):
                         else result.mulliken_charges_summed
                     )
                 ),
+                # "mulliken_charges_spin_densities_summed": (
+                #     None  # avoid attempting to index None if this is missing
+                #     if result.mulliken_charges_spin_densities_summed is None
+                #     # if printed twice, take the second one
+                #     else (
+                #         result.mulliken_charges_spin_densities_summed[-1]
+                #         if isinstance(result.mulliken_charges_spin_densities_summed[0][0], list)
+                #         else result.mulliken_charges_spin_densities_summed
+                #     )
+                # ),
                 "homo_lumo_gap": result.homo_lumo_gap,
                 "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
@@ -99,7 +109,7 @@ def _dft(fpath):
             if results[-1].normal_termination  # skip entire composite job if DFT failed
         ]
     except Exception as e:
-        print(f"Unable to munge {fpath}, exception: {str(e.with_traceback())}. Skipping!")
+        print(f"Unable to munge {fpath}, exception: {str(e.with_traceback(e.__traceback__))}. Skipping!")
         return []
 
 
