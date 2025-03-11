@@ -41,5 +41,5 @@ bash log_finder.sh \
 examples
 
 for dir in "$@"; do
-    find $dir -type f -name "*.log"
+    find $dir -type f \( -name "*.log" -o -name "*.tar" \)
 done
