@@ -74,6 +74,7 @@ _func_lookup: MappingProxyType = MappingProxyType(
     {
         "dlpno": _dlpno,
         "dft": _dft,
+        "semiempirical": _dft,
     }
 )
 
