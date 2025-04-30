@@ -5,6 +5,7 @@
 import sys
 from multiprocessing import Pool
 from types import MappingProxyType
+from contextlib import closing
 
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -83,25 +84,37 @@ def _dump_buffer(writer: pq.ParquetWriter, buffer: list[dict]):
     return []
 
 
+BUFFER_SIZE = 32
+CHUNK_SIZE = 20000
+
+
+def chunks(lst, n):
+    """Yield n chunks"""
+    for i in range(n):
+        yield lst[i * CHUNK_SIZE : (i + 1) * CHUNK_SIZE]
+
+
 if __name__ == "__main__":
     all_logfile_fpaths = None
     with open(LOGFILE_PATHS_FILE, "r") as file:
         all_logfile_fpaths = file.read().splitlines()
 
+    num_chunks = (len(all_logfile_fpaths) + CHUNK_SIZE - 1) // CHUNK_SIZE
     writer = pq.ParquetWriter(DB_PATH, SCHEMA_LOOKUP[DB_TYPE])
-    with Pool(96) as p:
-        with tqdm(
-            total=len(all_logfile_fpaths),
-            desc=f"Parsing {DB_TYPE}",
-        ) as pbar:
-            buffer = []
-            for result in p.imap_unordered(_func_lookup[DB_TYPE], all_logfile_fpaths, 512):
-                buffer.extend(result)
-                if len(buffer) >= 512:
-                    buffer = _dump_buffer(writer, buffer)
-                pbar.update()
+    for k, logfile_fpaths in enumerate(chunks(all_logfile_fpaths, num_chunks)):
+        with closing(Pool(96)) as p:
+            with tqdm(
+                total=len(logfile_fpaths),
+                desc=f"Parsing {DB_TYPE} (chunk {k+1}/{num_chunks})",
+            ) as pbar:
+                buffer = []
+                for result in p.imap_unordered(_func_lookup[DB_TYPE], logfile_fpaths, BUFFER_SIZE):
+                    buffer.extend(result)
+                    if len(buffer) >= BUFFER_SIZE:
+                        buffer = _dump_buffer(writer, buffer)
+                    pbar.update()
 
-            # Write the remaining data
-            if buffer:
-                _dump_buffer(writer, buffer)
+                # Write the remaining data
+                if buffer:
+                    _dump_buffer(writer, buffer)
     writer.close()
