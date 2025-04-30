@@ -45,8 +45,16 @@ def _dft(fpath):
             {
                 "source": fpath,
                 "route_section": result.route_section,
-                "charge": result.charge_and_multiplicity[0],
-                "multiplicity": result.charge_and_multiplicity[1],
+                "charge": (
+                    None
+                    if result.charge_and_multiplicity is None
+                    else result.charge_and_multiplicity[0]
+                ),
+                "multiplicity": (
+                    None
+                    if result.charge_and_multiplicity is None
+                    else result.charge_and_multiplicity[1]
+                ),
                 "max_steps": result.max_steps,
                 "normal_termination": result.normal_termination,
                 "cpu_time": result.cpu_time,
