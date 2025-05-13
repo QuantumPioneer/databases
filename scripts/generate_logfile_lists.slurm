@@ -25,5 +25,7 @@ bash log_finder.sh \
 bash log_finder.sh \
     "/data1/groups/RMG/Projects/Hao-Wei-Oscar-Yunsie/HAbs_calculations/reactants_products_calculations/calculations/aug11b/output/semiempirical_opt/outputs/" \
     "/data1/groups/RMG/Projects/Hao-Wei-Oscar-Yunsie/HAbs_calculations/reactants_products_calculations/calculations/sep1a_filtered/output/semiempirical_opt/outputs/" \
-    "/data1/groups/co2_capture/reactant_product_calculation/ts_nho_round1/output/semiempirical_opt/outputs/" \
-    "/data1/groups/RMG/Projects/Habs/data/ts/semi/"  >> all_semi_log_files.txt
+    "/data1/groups/co2_capture/reactant_product_calculation/ts_nho_round1/output/semiempirical_opt/outputs/" >> nonts_semi_log_files.txt
+
+bash log_finder.sh \
+    "/data1/groups/RMG/Projects/Habs/data/ts/semi/"  >> ts_semi_log_files.txt
