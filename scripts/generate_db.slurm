@@ -33,7 +33,7 @@ python generator.py $LOGFILES_LIST $DB_PATH $DB_TYPE
 XZ_OPT='-v -e9 --threads=0' tar cJfv $NODE_PATH$DB_NAME.tar.xz -C $NODE_PATH $DB_NAME
 
 # then move it to the shared directory
-DEST=/home/gridsan/$USER/QuantumPioneer/databases/scripts/
+DEST=/home/gridsan/groups/qmdata/quantumpioneer/databases/scripts/
 rsync -va --progress $NODE_PATH$DB_NAME.tar.xz $DEST$DB_NAME.tar.xz
 
 # and decompress it
