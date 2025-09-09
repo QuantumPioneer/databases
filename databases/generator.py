@@ -31,6 +31,8 @@ def _dlpno(fpath):
                 "route_section": result.route_section,
                 "charge": result.charge_and_multiplicity[0],
                 "multiplicity": result.charge_and_multiplicity[1],
+                "dipole_au": result.dipole_au,
+                "t1_diagnostic": result.t1_diagnostic,
             }
         ]
     except Exception as e:
@@ -39,6 +41,20 @@ def _dlpno(fpath):
 
 
 def _dft(fpath):
+    try:
+        results = fglp(fpath)
+    except Exception as e:
+        print(f"Unable to parse {fpath}, exception: {str(e)}. Skipping!")
+        return []
+
+    # this is how the results are actually split up
+    # if len(results) == 3:  # semi-empirical
+    #     am1_result, pm7_result, xtb_result = results
+    # elif len(results) == 1:  # DFT
+    #     dft_result = results[0]
+    # else:
+    #     print(f"Unexpected number of results in file {fpath}, skipping.")
+    #     return []
     try:
         return [
             {
@@ -55,17 +71,45 @@ def _dft(fpath):
                 "zpe_per_atom": result.zpe_per_atom,
                 "e0_zpe": result.e0_zpe,
                 "gibbs": result.gibbs,
+                "dipole_au": result.dipole_au,
+                "aniso_polarizability_au": result.aniso_polarizability_au,
+                "iso_polarizability_au": result.iso_polarizability_au,
+                "dipole_moment_debye": result.dipole_moment_debye,
+                "mulliken_charges_summed": (
+                    None  # avoid attempting to index None if this is missing
+                    if result.mulliken_charges_summed is None
+                    # if printed twice, take the second one
+                    else (
+                        result.mulliken_charges_summed[-1]
+                        if isinstance(result.mulliken_charges_summed[0][0], list)
+                        else result.mulliken_charges_summed
+                    )
+                ),
+                # "mulliken_charges_spin_densities_summed": (
+                #     None  # avoid attempting to index None if this is missing
+                #     if result.mulliken_charges_spin_densities_summed is None
+                #     # if printed twice, take the second one
+                #     else (
+                #         result.mulliken_charges_spin_densities_summed[-1]
+                #         if isinstance(result.mulliken_charges_spin_densities_summed[0][0], list)
+                #         else result.mulliken_charges_spin_densities_summed
+                #     )
+                # ),
+                "homo_lumo_gap": result.homo_lumo_gap,
+                "beta_homo_lumo_gap": result.beta_homo_lumo_gap,
                 "scf": result.scf,
                 "frequencies": result.frequencies,
+                "nmr_shielding": result.nmr_shielding,
                 "frequency_modes": result.frequency_modes,
-                "xyz": result.xyz,
-                "std_xyz": result.std_xyz,
-                "std_forces": result.std_forces,
+                "xyz": result.xyz[-1],  # keep only the converged XYZ
+                "std_xyz": result.std_xyz[-5:],  # keep only the last 5 steps of optimization
+                "std_forces": None if result.std_forces is None else result.std_forces[-5:],
             }
-            for result in fglp(fpath)
+            for result in results
+            if results[-1].normal_termination  # skip entire composite job if DFT failed
         ]
     except Exception as e:
-        print(f"Unable to parse {fpath}, exception: {str(e)}")
+        print(f"Unable to munge {fpath}, exception: {str(e.with_traceback(e.__traceback__))}. Skipping!")
         return []
 
 

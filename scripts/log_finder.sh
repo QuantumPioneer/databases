@@ -36,6 +36,8 @@ COSMO data:
 bash log_finder.sh \
     "/data1/groups/co2_capture/cosmo_backup/cosmo_rp_aug11b_backup" \
     "/data1/groups/co2_capture/cosmo_backup/cosmo_rp_sep1a_backup" \
+    "/data1/groups/co2_capture/cosmo_backup/cosmo_ts_sep1a_backup" \
+    "/data1/groups/co2_capture/ts_guess_generation/ts_dlpno_calculation_20231117/output/COSMO_calc" \
     "/data1/groups/co2_capture/reactant_product_calculation/ts_nho_round1/output/COSMO_calc" >> all_cosmo_log_files.txt
 
 examples

@@ -13,3 +13,9 @@
 
 ## Online Documentation
 [Click here to read the documentation](https://QuantumPioneer.github.io/tristate20/)
+
+## SuperCloud
+Use this command to upgrade the installed version of `fastlogfileparser` (for initial development purposes only):
+```bash
+pip install --force-reinstall --no-cache-dir git+https://github.com/QuantumPioneer/FastLogfileParser.git@release/quantumpioneer_v1
+```
