@@ -6,6 +6,7 @@ slurm.*
 .old
 *.parquet
 
+data/thermo/*.csv
 data/kinetics/*.csv
 
 # Byte-compiled / optimized / DLL files
