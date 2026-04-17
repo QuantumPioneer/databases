@@ -1,9 +1,13 @@
+data/solvation/**/*.csv
+
+
 scripts/*.txt
 slurm.*
 .old
 *.parquet
 
 data/thermo/*.csv
+data/kinetics/*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
