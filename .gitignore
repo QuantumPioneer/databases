@@ -1,3 +1,6 @@
+data/solvation/**/*.csv
+
+
 scripts/*.txt
 slurm.*
 .old
