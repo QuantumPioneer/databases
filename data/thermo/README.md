@@ -1,4 +1,6 @@
-# QuantumPioneer Species Thermodynamics Dataset
+# QuantumPioneer Thermodynamics Datasets
+
+## Closed-Shell and Open-Shell Species
 
 | Column                       | Type   | Units        | Description                                     |
 | ---------------------------- | ------ | ------------ | ----------------------------------------------- |
@@ -17,6 +19,15 @@
 | **`S0`**                     | number | J/(mol·K)    | Wilhoit integration constant for entropy        |
 | **`B`**                      | number | K            | Wilhoit scaled temperature coefficient          |
 | **`DHPM`**                   | number | J/mol        | Petersson-to-Melius enthalpy difference         |
+
+## Transition States
+
+| Column                       | Type   | Units   | Description                                     |
+| ---------------------------- | ------ | ------- | ----------------------------------------------- |
+| **`rxn_smi`**                | string | —       | Canonical reaction SMILES (r1.r2>>p1.p2)        |
+| **`dlpno_sp_hartree`**       | number | Hartree | DLPNO-CCSD(T)-F12d single-point energy          |
+| **`dft_zpe_scaled_hartree`** | number | Hartree | Scaled DFT zero-point energy (factor: 0.972387) |
+
 
 ## Notes
 
