@@ -18,7 +18,7 @@
 | **`H0`**                     | number | J/mol        | Wilhoit integration constant for enthalpy       |
 | **`S0`**                     | number | J/(mol·K)    | Wilhoit integration constant for entropy        |
 | **`B`**                      | number | K            | Wilhoit scaled temperature coefficient          |
-| **`DHPM`**                   | number | J/mol        | Petersson-to-Melius enthalpy difference         |
+| **`P2M`**                    | number | J/mol        | Petersson-to-Melius energy difference           |
 
 ## Transition States
 
@@ -37,12 +37,14 @@
 DLPNO-CCSD(T)-F12d single-point calculations
 
 - The standard enthalpy of formation (`H298`) and Wilhoit integration constant for enthalpy (`H0`)
-derive from calculations using Petersson-type bond additivity corrections (BACs). Add `DHPM` to
+derive from calculations using Petersson-type bond additivity corrections (BACs). Add `P2M` to
 either of these in order to obtain their Melius-type BAC-corrected versions.
 
 ## Wilhoit Model
 
-The Wilhoit model provides a physically meaningful representation of temperature-dependent heat capacity, guaranteeing correct limits at zero and infinite temperature. The model is defined by the following equations:
+The Wilhoit model provides a physically meaningful representation of temperature-dependent heat
+capacity, guaranteeing correct limits at zero and infinite temperature. The model is defined by
+the following equations:
 
 ### Heat Capacity
 
@@ -53,7 +55,8 @@ $$
 
 where $y \equiv T/(T + B)$ is a scaled temperature ranging from zero to one.
 
-$C_\mathrm{p}(0)$ is the heat capacity at zero temperature, whose value is equal to 33.2579 J/(mol·K) for all species in the dataset.
+$C_\mathrm{p}(0)$ is the heat capacity at zero temperature, whose value is equal to 33.2579 J/(mol·K)
+for all species in the dataset.
 
 ### Enthalpy
 
