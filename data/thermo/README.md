@@ -2,31 +2,31 @@
 
 ## Closed-Shell and Open-Shell Species
 
-| Column                       | Type   | Units        | Description                                     |
-| ---------------------------- | ------ | ------------ | ----------------------------------------------- |
-| **`smiles`**                 | string | —            | Canonical SMILES representation of the species  |
-| **`H298`**                   | number | J/mol        | Standard enthalpy of formation at 298 K         |
-| **`S298`**                   | number | J/(mol·K)    | Standard entropy of formation at 298 K          |
-| **`Cp300`**                  | number | J/(mol·K)    | Constant pressure heat capacity at 300 K        |
-| **`dlpno_sp_hartree`**       | number | Hartree      | DLPNO-CCSD(T)-F12d single-point energy          |
-| **`dft_zpe_scaled_hartree`** | number | Hartree      | Scaled DFT zero-point energy (factor: 0.972387) |
-| **`CpInf`**                  | number | J/(mol·K)    | Heat capacity at infinite temperature           |
-| **`a0`**                     | number | —            | Zeroth-order Wilhoit polynomial coefficient     |
-| **`a1`**                     | number | —            | First-order Wilhoit polynomial coefficient      |
-| **`a2`**                     | number | —            | Second-order Wilhoit polynomial coefficient     |
-| **`a3`**                     | number | —            | Third-order Wilhoit polynomial coefficient      |
-| **`H0`**                     | number | J/mol        | Wilhoit integration constant for enthalpy       |
-| **`S0`**                     | number | J/(mol·K)    | Wilhoit integration constant for entropy        |
-| **`B`**                      | number | K            | Wilhoit scaled temperature coefficient          |
-| **`P2M`**                    | number | J/mol        | Petersson-to-Melius energy difference           |
+| Column                   | Type   | Units     | Description                                     |
+|:-------------------------|:------:|:---------:|:------------------------------------------------|
+| `smiles`                 | string | —         | Canonical SMILES representation of the species  |
+| `H298`                   | number | J/mol     | Standard enthalpy of formation at 298 K         |
+| `S298`                   | number | J/(mol·K) | Standard entropy of formation at 298 K          |
+| `Cp300`                  | number | J/(mol·K) | Constant pressure heat capacity at 300 K        |
+| `dlpno_sp_hartree`       | number | Hartree   | DLPNO-CCSD(T)-F12d single-point energy          |
+| `dft_zpe_scaled_hartree` | number | Hartree   | Scaled DFT zero-point energy (factor: 0.972387) |
+| `CpInf`                  | number | J/(mol·K) | Heat capacity at infinite temperature           |
+| `a0`                     | number | —         | Zeroth-order Wilhoit polynomial coefficient     |
+| `a1`                     | number | —         | First-order Wilhoit polynomial coefficient      |
+| `a2`                     | number | —         | Second-order Wilhoit polynomial coefficient     |
+| `a3`                     | number | —         | Third-order Wilhoit polynomial coefficient      |
+| `H0`                     | number | J/mol     | Wilhoit integration constant for enthalpy       |
+| `S0`                     | number | J/(mol·K) | Wilhoit integration constant for entropy        |
+| `B`                      | number | K         | Wilhoit scaled temperature coefficient          |
+| `P2M`                    | number | J/mol     | Petersson-to-Melius energy difference           |
 
 ## Transition States
 
-| Column                       | Type   | Units   | Description                                     |
-| ---------------------------- | ------ | ------- | ----------------------------------------------- |
-| **`rxn_smi`**                | string | —       | Canonical reaction SMILES (r1.r2>>p1.p2)        |
-| **`dlpno_sp_hartree`**       | number | Hartree | DLPNO-CCSD(T)-F12d single-point energy          |
-| **`dft_zpe_scaled_hartree`** | number | Hartree | Scaled DFT zero-point energy (factor: 0.972387) |
+| Column                   | Type   | Units   | Description                                     |
+|:-------------------------|:------:|:-------:|:------------------------------------------------|
+| `rxn_smi`                | string | —       | Canonical reaction SMILES (r1.r2>>p1.p2)        |
+| `dlpno_sp_hartree`       | number | Hartree | DLPNO-CCSD(T)-F12d single-point energy          |
+| `dft_zpe_scaled_hartree` | number | Hartree | Scaled DFT zero-point energy (factor: 0.972387) |
 
 
 ## Notes
